@@ -24,4 +24,6 @@ steps:
       event: [ push, tag, deployment, pull_request ]
 trigger:
   event:
+  - push
   - tag
+  
