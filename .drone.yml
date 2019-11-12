@@ -24,7 +24,6 @@ steps:
       api_key:
         from_secret: GITHUB_API_KEY
       files: src/*
-    note: CHANGELOG.md
     when:
       event: tag
   - name: send telegram notification
@@ -40,4 +39,3 @@ steps:
 trigger:
   event:
   - tag
-  
