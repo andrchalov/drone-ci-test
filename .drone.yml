@@ -3,12 +3,15 @@ kind: pipeline
 name: default
 
 steps:
-  - name: docker-tag-demo
-    image: debian:stable-slim
+  - name: Check that version file has been updated
+    image: curlimages/curl
     commands:
-      - echo "The current branch is ${DRONE_BRANCH}"
-      - echo "The current commit hash is ${DRONE_COMMIT_SHA}"
-      - echo "The image tag is ${DRONE_TAG}"
+      - export GITHUB_API_KEY=0459ed41a176e62f4ded7510a535f2b00d019dc1
+      - sh auto_create_tag.sh
+trigger:
+  branch:
+  - master
+
 #   - name: docker
 #     image: plugins/docker
 #     settings:
@@ -18,29 +21,31 @@ steps:
 #         from_secret: DOCKER_REGISTRY_TOKEN
 #       tags:
 #         - ${DRONE_TAG}
-  - name: set env
-    image: alpine
-    commands:
-      - echo VERSION=`cat version` > .env
-  - name: docker-tag
-    image: debian:stable-slim
-    commands:
-      - echo "The current branch is ${VERSION}"
-  - name: publish
-    image: plugins/github-release
-    settings:
-      api_key:
-        from_secret: GITHUB_API_KEY
-  - name: send telegram notification
-    image: appleboy/drone-telegram
-    settings:
-      token:
-        from_secret: TELEGRAM_TOKEN
-      to:
-        from_secret: TELEGRAM_CLIENT
-    when:
-      status: [ success, failure ]
-      event: [ push, tag, deployment, pull_request ]
+#
+# steps:
+#   - name: set env
+#     image: alpine
+#     commands:
+#       - echo VERSION=`cat version` > .env
+#   - name: docker-tag
+#     image: debian:stable-slim
+#     commands:
+#       - echo "The current branch is ${VERSION}"
+#   - name: publish
+#     image: plugins/github-release
+#     settings:
+#       api_key:
+#         from_secret: GITHUB_API_KEY
+#   - name: send telegram notification
+#     image: appleboy/drone-telegram
+#     settings:
+#       token:
+#         from_secret: TELEGRAM_TOKEN
+#       to:
+#         from_secret: TELEGRAM_CLIENT
+#     when:
+#       status: [ success, failure ]
+#       event: [ push, tag, deployment, pull_request ]
 # trigger:
 #   event:
 #   - tag
