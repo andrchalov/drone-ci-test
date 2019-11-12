@@ -6,6 +6,9 @@ steps:
   - name: docker
     image: plugins/docker
     settings:
+      repo: andrchalov/docker-ci-test
+      tags:
+        - latest
       auth:
         from_secret: DOCKER_REGISTRY_TOKEN
   - name: send telegram notification
