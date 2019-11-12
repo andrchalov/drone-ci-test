@@ -18,14 +18,22 @@ steps:
 #         from_secret: DOCKER_REGISTRY_TOKEN
 #       tags:
 #         - ${DRONE_TAG}
-  - name: publish
-    image: plugins/github-release
-    settings:
-      api_key:
-        from_secret: GITHUB_API_KEY
-      title: 1.0.0
-    when:
-      event: tag
+  - name: set env
+    image: alpine
+    commands:
+      - echo VERSION=`cat version` > .env
+  - name: docker-tag-demo
+    image: debian:stable-slim
+    commands:
+      - echo "The current branch is ${VERSION}"
+  # - name: publish
+  #   image: plugins/github-release
+  #   settings:
+  #     api_key:
+  #       from_secret: GITHUB_API_KEY
+  #     title: 1.0.0
+  #   when:
+  #     event: tag
   - name: send telegram notification
     image: appleboy/drone-telegram
     settings:
@@ -36,6 +44,6 @@ steps:
     when:
       status: [ success, failure ]
       event: [ push, tag, deployment, pull_request ]
-trigger:
-  event:
-  - tag
+# trigger:
+#   event:
+#   - tag
