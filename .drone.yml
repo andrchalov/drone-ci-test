@@ -18,6 +18,10 @@ steps:
 #         from_secret: DOCKER_REGISTRY_TOKEN
 #       tags:
 #         - ${DRONE_TAG}
+  - name: set version
+    image: alpine
+    commands:
+      - echo "${DRONE_TAG}" > src/version
   - name: publish
     image: plugins/github-release
     settings:
