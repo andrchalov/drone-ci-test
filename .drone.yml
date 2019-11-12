@@ -1,5 +1,11 @@
-- name: send telegram notification
-  image: appleboy/drone-telegram
-  settings:
-    token: 934501665:AAGWoM4bf3v0ziOqsf_crywcrr1x6HXxCFk
-    to: 96856885
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: send telegram notification
+    image: appleboy/drone-telegram
+    settings:
+      token: 934501665:AAGWoM4bf3v0ziOqsf_crywcrr1x6HXxCFk
+      to: 96856885
