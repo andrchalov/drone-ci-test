@@ -4,7 +4,7 @@ name: default
 
 steps:
   - name: docker
-    image: andrchalov/drone-ci-test
+    image: plugins/docker
     settings:
       auth:
         from_secret: DOCKER_REGISTRY_TOKEN
