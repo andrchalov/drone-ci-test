@@ -7,10 +7,11 @@ steps:
     image: plugins/docker
     settings:
       repo: andrchalov/docker-ci-test
-      tags:
-        - latest
+      username: andrchalov
       auth:
         from_secret: DOCKER_REGISTRY_TOKEN
+      tags:
+        - latest
   - name: send telegram notification
     image: appleboy/drone-telegram
     settings:
