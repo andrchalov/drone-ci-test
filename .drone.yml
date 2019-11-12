@@ -18,6 +18,15 @@ steps:
 #         from_secret: DOCKER_REGISTRY_TOKEN
 #       tags:
 #         - ${DRONE_TAG}
+  - name: publish
+    image: plugins/github-release
+    settings:
+      api_key:
+        from_secret: GITHUB_API_KEY
+      files: src/*
+    note: CHANGELOG.md
+    when:
+      event: tag
   - name: send telegram notification
     image: appleboy/drone-telegram
     settings:
@@ -30,6 +39,5 @@ steps:
       event: [ push, tag, deployment, pull_request ]
 trigger:
   event:
-  - push
   - tag
   
