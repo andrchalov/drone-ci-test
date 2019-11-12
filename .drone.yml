@@ -1,9 +1,13 @@
 ---
 kind: pipeline
-type: docker
 name: default
 
 steps:
+  - name: docker
+    image: andrchalov/drone-ci-test
+    settings:
+      auth:
+        from_secret: DOCKER_REGISTRY_TOKEN
   - name: send telegram notification
     image: appleboy/drone-telegram
     settings:
