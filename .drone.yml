@@ -26,14 +26,11 @@ steps:
     image: debian:stable-slim
     commands:
       - echo "The current branch is ${VERSION}"
-  # - name: publish
-  #   image: plugins/github-release
-  #   settings:
-  #     api_key:
-  #       from_secret: GITHUB_API_KEY
-  #     title: 1.0.0
-  #   when:
-  #     event: tag
+  - name: publish
+    image: plugins/github-release
+    settings:
+      api_key:
+        from_secret: GITHUB_API_KEY
   - name: send telegram notification
     image: appleboy/drone-telegram
     settings:
