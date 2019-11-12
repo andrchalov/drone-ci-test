@@ -22,3 +22,6 @@ steps:
     when:
       status: [ success, failure ]
       event: [ push, tag, deployment, pull_request ]
+trigger:
+  event:
+  - tag
