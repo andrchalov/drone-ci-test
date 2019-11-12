@@ -1,3 +1,4 @@
+---
 - name: send telegram notification
   image: appleboy/drone-telegram
   settings:
