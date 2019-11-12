@@ -22,7 +22,7 @@ steps:
     image: alpine
     commands:
       - echo VERSION=`cat version` > .env
-  - name: docker-tag-demo
+  - name: docker-tag
     image: debian:stable-slim
     commands:
       - echo "The current branch is ${VERSION}"
