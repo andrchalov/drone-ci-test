@@ -3,15 +3,21 @@ kind: pipeline
 name: default
 
 steps:
-  - name: docker
-    image: plugins/docker
-    settings:
-      repo: andrchalov/docker-ci-test
-      username: andrchalov
-      password:
-        from_secret: DOCKER_REGISTRY_TOKEN
-      tags:
-        - ${DRONE_TAG}
+  - name: docker-tag-demo
+    image: debian:stable-slim
+    commands:
+      - echo "The current branch is ${DRONE_BRANCH}"
+      - echo "The current commit hash is ${DRONE_COMMIT_SHA}"
+      - echo "The image tag is ${DRONE_BRANCH//\//-}-${DRONE_COMMIT_SHA:0:8}"
+#   - name: docker
+#     image: plugins/docker
+#     settings:
+#       repo: andrchalov/docker-ci-test
+#       username: andrchalov
+#       password:
+#         from_secret: DOCKER_REGISTRY_TOKEN
+#       tags:
+#         - ${DRONE_TAG}
   - name: send telegram notification
     image: appleboy/drone-telegram
     settings:
