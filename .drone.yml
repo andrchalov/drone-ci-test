@@ -8,7 +8,7 @@ steps:
     settings:
       repo: andrchalov/docker-ci-test
       username: andrchalov
-      auth:
+      password:
         from_secret: DOCKER_REGISTRY_TOKEN
       tags:
         - latest
