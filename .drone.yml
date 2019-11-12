@@ -7,5 +7,7 @@ steps:
   - name: send telegram notification
     image: appleboy/drone-telegram
     settings:
-      token: ${TELEGRAM_TOKEN}
-      to: ${TELEGRAM_CLIENT}
+      token:
+        from_secret: TELEGRAM_TOKEN
+      to:
+        from_secret: TELEGRAM_CLIENT
