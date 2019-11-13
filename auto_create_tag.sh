@@ -10,10 +10,10 @@ then
 
   echo '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}'
 
-  curl -v -X POST -d '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}' \
+  echo `curl -v -X POST -d '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}' \
     --header "Content-Type:application/json" \
     -u ${DRONE_REPO_OWNER}:${GITHUB_API_KEY} \
-    "https://api.github.com/repos/${DRONE_REPO}/git/tags"
+    "https://api.github.com/repos/${DRONE_REPO}/git/tags"`
 
   echo "https://api.github.com/repos/${DRONE_REPO}/git/tags"
 
