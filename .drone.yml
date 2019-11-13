@@ -21,6 +21,7 @@ steps:
         from_secret: DOCKER_REGISTRY_TOKEN
       tags:
         - ${DRONE_TAG}
+  
   - name: publish release
     image: plugins/github-release
     settings:
