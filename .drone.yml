@@ -24,7 +24,7 @@ steps:
   - name: build docker imagee
     image: plugins/docker
     settings:
-      repo: andrchalov/docker-ci-test
+      repo: ${DRONE_REPO}
       username: andrchalov
       password:
         from_secret: DOCKER_REGISTRY_TOKEN
@@ -39,10 +39,17 @@ steps:
   - name: send telegram notification
     image: appleboy/drone-telegram
     settings:
+      message: >
+        {{#success build.status}}
+          ${DRONE_REPO}: release ${DRONE_TAG} successfully builded and pushed to docker hub
+        {{else}}
+          ${DRONE_REPO}: failed to create release ${DRONE_TAG}
+        {{/success}}
       token:
         from_secret: TELEGRAM_TOKEN
       to:
         from_secret: TELEGRAM_CLIENT
+      format: markdown
     when:
       status: [ success, failure ]
       event: [ push, tag, deployment, pull_request ]
