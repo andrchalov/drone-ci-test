@@ -1,7 +1,5 @@
 #!/bin/sh
 
-REPO=andrchalov/drone-ci-test
-
 current_release=`cat version`
 
 tag_page_status=`curl -s -o /dev/null -w "%{http_code}" https://github.com/andrchalov/drone-ci-test/releases/tag/${current_release}`
@@ -15,9 +13,9 @@ then
   curl -X POST -d '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}' \
     --header "Content-Type:application/json" \
     -u andrchalov:$GITHUB_API_KEY \
-    "https://api.github.com/repos/${REPO}/git/tags"
+    "https://api.github.com/repos/${DRONE_REPO}/git/tags"
 
   curl -X POST -d '{"ref":"refs/tags/'${current_release}'","sha":"'${sha}'"' \
     --header "Content-Type:application/json" \
-    -u andrchalov:$GITHUB_API_KEY "https://api.github.com/repos/${REPO}/git/refs"
+    -u andrchalov:$GITHUB_API_KEY "https://api.github.com/repos/${DRONE_REPO}/git/refs"
 fi
