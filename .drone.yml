@@ -41,11 +41,9 @@ steps:
     settings:
       message: >
         {{#success build.status}}
-          `${DRONE_REPO}`: release *${DRONE_TAG}* successfully builded and pushed to docker hub
-          info: {{build.link}}
+          `${DRONE_REPO}`: release *${DRONE_TAG}* successfully builded and pushed to docker hub [info]({{build.link}})
         {{else}}
-          `${DRONE_REPO}`: failed to create release *${DRONE_TAG}*\n
-          info: {{build.link}}
+          `${DRONE_REPO}`: failed to create release *${DRONE_TAG}* [info]({{build.link}})
         {{/success}}
       token:
         from_secret: TELEGRAM_TOKEN
