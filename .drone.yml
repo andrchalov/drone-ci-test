@@ -6,7 +6,7 @@ steps:
   - name: Check that version file has been updated
     image: curlimages/curl
     commands:
-      - export GITHUB_API_KEY=0459ed41a176e62f4ded7510a535f2b00d019dc1
+      - env
       - sh auto_create_tag.sh
 trigger:
   branch:

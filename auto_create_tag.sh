@@ -2,19 +2,22 @@
 
 REPO=andrchalov/drone-ci-test
 
-latest_release=`
-  curl --silent "https://api.github.com/repos/${REPO}/releases/latest" | # Get latest release from GitHub api
-    grep '"tag_name":' |                                                 # Get tag line
-    sed -E 's/.*"([^"]+)".*/\1/'                                         # Pluck JSON value
-`
-
 current_release=`cat version`
-sha=`cat .git/refs/heads/master`
 
-echo '{"tag":"'${current_release}'","message":"new version","object":"${sha}","type":"commit"}'
-echo $GITHUB_API_KEY
-if [ $latest_release != $current_release ]
+tag_page_status=`curl -s -o /dev/null -w "%{http_code}" https://github.com/andrchalov/drone-ci-test/releases/tag/${current_release}`
+
+if [ $tag_page_status == "404" ]
 then
-  curl -X POST -d '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"commit"}' --header "Content-Type:application/json" \
-    -u andrchalov:$GITHUB_API_KEY "https://api.github.com/repos/${REPO}/git/tags"
+  sha=`cat .git/refs/heads/master`
+
+  echo '{"tag":"'${current_release}'","message":"new version","object":"${sha}","type":"commit"}'
+
+  curl -X POST -d '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}' \
+    --header "Content-Type:application/json" \
+    -u andrchalov:$GITHUB_API_KEY \
+    "https://api.github.com/repos/${REPO}/git/tags"
+
+  curl -X POST -d '{"ref":"refs/tags/'${current_release}'","sha":"'${sha}'"' \
+    --header "Content-Type:application/json" \
+    -u andrchalov:$GITHUB_API_KEY "https://api.github.com/repos/${REPO}/git/refs"
 fi
