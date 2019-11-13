@@ -41,7 +41,8 @@ steps:
     settings:
       message: >
         {{#success build.status}}
-          `${DRONE_REPO}`: release *${DRONE_TAG}* successfully builded and pushed to docker hub
+          `${DRONE_REPO}`: release *${DRONE_TAG}* successfully builded and pushed to docker hub\n
+          {{build.link}}
         {{else}}
           `${DRONE_REPO}`: failed to create release *${DRONE_TAG}*\n
           {{build.link}}
