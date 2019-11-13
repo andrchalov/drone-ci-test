@@ -8,7 +8,7 @@ if [ $tag_page_status == "404" ]
 then
   sha=`cat .git/refs/heads/master`
 
-  curl -v -X POST -d '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}' \
+  curl -X POST -d '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}' \
     --header "Content-Type:application/json" \
     -u ${DRONE_REPO_OWNER}:${GITHUB_API_KEY} \
     "https://api.github.com/repos/${DRONE_REPO}/git/tags"
