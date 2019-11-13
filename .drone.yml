@@ -21,21 +21,21 @@ kind: pipeline
 name: on tag
 
 steps:
-  - name: build docker image
-    image: plugins/docker
-    settings:
-      repo: ${DRONE_REPO}
-      username: andrchalov
-      password:
-        from_secret: DOCKER_REGISTRY_TOKEN
-      tags:
-        - ${DRONE_TAG}
-
-  - name: publish release
-    image: plugins/github-release
-    settings:
-      api_key:
-        from_secret: GITHUB_API_KEY
+  # - name: build docker image
+  #   image: plugins/docker
+  #   settings:
+  #     repo: ${DRONE_REPO}
+  #     username: andrchalov
+  #     password:
+  #       from_secret: DOCKER_REGISTRY_TOKEN
+  #     tags:
+  #       - ${DRONE_TAG}
+  #
+  # - name: publish release
+  #   image: plugins/github-release
+  #   settings:
+  #     api_key:
+  #       from_secret: GITHUB_API_KEY
   - name: send telegram notification
     image: appleboy/drone-telegram
     settings:
@@ -43,7 +43,8 @@ steps:
         {{#success build.status}}
           `${DRONE_REPO}`: release *${DRONE_TAG}* successfully builded and pushed to docker hub
         {{else}}
-          `${DRONE_REPO}`: failed to create release *${DRONE_TAG}*
+          `${DRONE_REPO}`: failed to create release *${DRONE_TAG}*\n
+          {{build.link}}
         {{/success}}
       token:
         from_secret: TELEGRAM_TOKEN
