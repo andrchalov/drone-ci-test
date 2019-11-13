@@ -19,8 +19,8 @@ then
     -u andrchalov:$GITHUB_API_KEY \
     "https://api.github.com/repos/${DRONE_REPO}/git/tags"
 
-  echo '{"ref":"refs/tags/'${current_release}'","sha":"'${sha}'"'
-  
+  echo "https://api.github.com/repos/${DRONE_REPO}/git/tags"
+
   curl -X POST -d '{"ref":"refs/tags/'${current_release}'","sha":"'${sha}'"' \
     --header "Content-Type:application/json" \
     -u andrchalov:$GITHUB_API_KEY "https://api.github.com/repos/${DRONE_REPO}/git/refs"
