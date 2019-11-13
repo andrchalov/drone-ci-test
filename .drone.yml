@@ -21,7 +21,7 @@ kind: pipeline
 name: on tag
 
 steps:
-  - name: build docker imagee
+  - name: build docker image
     image: plugins/docker
     settings:
       repo: ${DRONE_REPO}
@@ -41,9 +41,9 @@ steps:
     settings:
       message: >
         {{#success build.status}}
-          **${DRONE_REPO}**: release *${DRONE_TAG}* successfully builded and pushed to docker hub
+          `${DRONE_REPO}`: release *${DRONE_TAG}* successfully builded and pushed to docker hub
         {{else}}
-          **${DRONE_REPO}**: failed to create release *${DRONE_TAG}*
+          `${DRONE_REPO}`: failed to create release *${DRONE_TAG}*
         {{/success}}
       token:
         from_secret: TELEGRAM_TOKEN
