@@ -6,6 +6,7 @@ steps:
   - name: Check that version file has been updated
     image: curlimages/curl
     commands:
+      - env
       - sh auto_create_tag.sh
 trigger:
   branch:
