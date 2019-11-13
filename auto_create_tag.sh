@@ -2,18 +2,14 @@
 
 current_release=`cat version`
 
-tag_page_status=`curl -s -o /dev/null -w "%{http_code}" https://github.com/andrchalov/drone-ci-test/releases/tag/${current_release}`
-
-echo $tag_page_status
+tag_page_status=`curl -s -o /dev/null -w "%{http_code}" https://github.com/${DRONE_REPO}/releases/tag/${current_release}`
 
 if [ $tag_page_status == "404" ]
 then
   sha=`cat .git/refs/heads/master`
 
-  echo '{"tag":"'${current_release}'","message":"new version","object":"${sha}","type":"commit"}'
-
   echo '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}'
-
+  
   curl -v -X POST -d '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}' \
     --header "Content-Type:application/json" \
     -u andrchalov:$GITHUB_API_KEY \
