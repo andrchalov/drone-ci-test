@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: default
+name: on commit
 
 steps:
   - name: Check that version file has been updated
@@ -10,6 +10,10 @@ steps:
 trigger:
   branch:
   - master
+
+---
+kind: pipeline
+name: on tag
 
 steps:
   - name: build docker imagee
@@ -21,7 +25,7 @@ steps:
         from_secret: DOCKER_REGISTRY_TOKEN
       tags:
         - ${DRONE_TAG}
-  
+
   - name: publish release
     image: plugins/github-release
     settings:
