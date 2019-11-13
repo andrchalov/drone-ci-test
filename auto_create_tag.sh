@@ -14,7 +14,7 @@ then
 
   echo '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}'
 
-  curl -X POST -d '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}' \
+  curl -v -X POST -d '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}' \
     --header "Content-Type:application/json" \
     -u andrchalov:$GITHUB_API_KEY \
     "https://api.github.com/repos/${DRONE_REPO}/git/tags"
