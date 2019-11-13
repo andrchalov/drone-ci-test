@@ -4,6 +4,8 @@ current_release=`cat version`
 
 tag_page_status=`curl -s -o /dev/null -w "%{http_code}" https://github.com/andrchalov/drone-ci-test/releases/tag/${current_release}`
 
+echo $tag_page_status
+
 if [ $tag_page_status == "404" ]
 then
   sha=`cat .git/refs/heads/master`
