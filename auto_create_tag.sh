@@ -12,11 +12,15 @@ then
 
   echo '{"tag":"'${current_release}'","message":"new version","object":"${sha}","type":"commit"}'
 
+  echo '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}'
+
   curl -X POST -d '{"tag":"'${current_release}'","message":"new version","object":"'${sha}'","type":"tree"}' \
     --header "Content-Type:application/json" \
     -u andrchalov:$GITHUB_API_KEY \
     "https://api.github.com/repos/${DRONE_REPO}/git/tags"
 
+  echo '{"ref":"refs/tags/'${current_release}'","sha":"'${sha}'"'
+  
   curl -X POST -d '{"ref":"refs/tags/'${current_release}'","sha":"'${sha}'"' \
     --header "Content-Type:application/json" \
     -u andrchalov:$GITHUB_API_KEY "https://api.github.com/repos/${DRONE_REPO}/git/refs"
