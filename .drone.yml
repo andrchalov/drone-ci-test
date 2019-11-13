@@ -21,21 +21,20 @@ kind: pipeline
 name: on tag
 
 steps:
-  # - name: build docker image
-  #   image: plugins/docker
-  #   settings:
-  #     repo: ${DRONE_REPO}
-  #     username: andrchalov
-  #     password:
-  #       from_secret: DOCKER_REGISTRY_TOKEN
-  #     tags:
-  #       - ${DRONE_TAG}
-  #
-  # - name: publish release
-  #   image: plugins/github-release
-  #   settings:
-  #     api_key:
-  #       from_secret: GITHUB_API_KEY
+  - name: build docker image
+    image: plugins/docker
+    settings:
+      repo: ${DRONE_REPO}
+      username: andrchalov
+      password:
+        from_secret: DOCKER_REGISTRY_TOKEN
+      tags:
+        - ${DRONE_TAG}
+  - name: publish release
+    image: plugins/github-release
+    settings:
+      api_key:
+        from_secret: GITHUB_API_KEY
   - name: send telegram notification
     image: appleboy/drone-telegram
     settings:
